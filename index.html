@@ -15,28 +15,13 @@
     </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
-    <!-- Telegram Web App Script -->
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    
-    <!-- Adsgram script -->
-    <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
-    
     <style>
-        /* Hide scrollbar for screenshots */
-        .hide-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        .hide-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-        /* Star rating hover animation */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         .star-btn { transition: transform 0.1s, color 0.2s; }
         .star-btn:active { transform: scale(0.8); }
-        /* Slider Transition */
         .slider-track { transition: transform 0.5s ease-in-out; }
         
-        /* YouTube Style Skeleton Shimmer Effect */
         @keyframes shimmer {
             0% { transform: translateX(-100%); }
             100% { transform: translateX(100%); }
@@ -44,11 +29,9 @@
         .skeleton-box {
             position: relative;
             overflow: hidden;
-            background-color: #e5e7eb; /* bg-gray-200 */
+            background-color: #e5e7eb;
         }
-        .dark .skeleton-box {
-            background-color: #374151; /* bg-gray-700 */
-        }
+        .dark .skeleton-box { background-color: #374151; }
         .skeleton-box::after {
             content: '';
             position: absolute;
@@ -66,7 +49,6 @@
 
     <!-- ================= HOME VIEW ================= -->
     <div id="home-view" class="container mx-auto p-4 max-w-7xl">
-        <!-- Header -->
         <header class="bg-gradient-to-br from-indigo-600 to-purple-700 text-white p-6 rounded-2xl shadow-xl mb-6 relative overflow-hidden transition-all duration-300">
             <div class="absolute top-0 right-0 opacity-10 transform translate-x-10 -translate-y-10">
                 <i class="fas fa-cloud-download-alt text-9xl"></i>
@@ -75,7 +57,6 @@
                 <div class="flex items-center gap-2 bg-black/20 px-3 py-1.5 rounded-full text-sm backdrop-blur-sm border border-white/10">
                     <i class="fas fa-user-circle"></i> <span id="user-display-name">Loading...</span>
                 </div>
-                <!-- Dark Mode Toggle -->
                 <button onclick="window.toggleDarkMode()" class="bg-black/20 hover:bg-black/40 text-white w-9 h-9 rounded-full flex items-center justify-center backdrop-blur-sm border border-white/10 transition-colors">
                     <i id="theme-icon" class="fas fa-moon"></i>
                 </button>
@@ -90,25 +71,16 @@
 
         <div id="ad-container-1" class="my-4 flex justify-center min-h-[50px]"></div>
         
-        <!-- Animated Slider Wrapper -->
         <div id="slider-wrapper" class="w-full h-40 md:h-80 bg-gray-200 dark:bg-gray-800 rounded-xl mb-6 overflow-hidden relative shadow-md hidden border border-transparent dark:border-gray-700">
-            <div id="slider-track" class="flex slider-track h-full w-full">
-                <!-- Slides will be injected here -->
-            </div>
-            <!-- Slider Dots -->
-            <div id="slider-dots" class="absolute bottom-2 w-full flex justify-center gap-2 z-10">
-                <!-- Dots injected here -->
-            </div>
+            <div id="slider-track" class="flex slider-track h-full w-full"></div>
+            <div id="slider-dots" class="absolute bottom-2 w-full flex justify-center gap-2 z-10"></div>
         </div>
         
         <div id="ad-container-2" class="my-4 flex justify-center min-h-[50px]"></div>
 
         <h2 data-key="available_files" class="text-xl font-bold mb-4 px-1 text-gray-800 dark:text-gray-100">Available Files</h2>
         
-        <!-- Grid -->
-        <div id="files-grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-6">
-            <!-- Files & Skeletons inject hongi yaha -->
-        </div>
+        <div id="files-grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-6"></div>
     </div>
 
     <!-- ================= HISTORY VIEW ================= -->
@@ -118,9 +90,7 @@
             <p data-key="history_subtitle" class="text-gray-500 dark:text-gray-400 mt-2">Files you have unlocked</p>
         </header>
 
-        <div id="history-list" class="flex flex-col gap-4">
-            <!-- History items yaha aayengi -->
-        </div>
+        <div id="history-list" class="flex flex-col gap-4"></div>
         <div id="empty-history" class="hidden text-center py-10">
             <i class="fas fa-box-open text-6xl text-gray-300 dark:text-gray-600 mb-4"></i>
             <p data-key="empty_history" class="text-gray-500 dark:text-gray-400 text-lg">No downloads yet.</p>
@@ -140,14 +110,12 @@
         </div>
 
         <div class="flex-1 overflow-y-auto pb-24 bg-white dark:bg-gray-900">
-            <!-- Responsive App Header Fix -->
             <div class="p-4 md:p-6 flex gap-4 items-start">
                 <img id="detail-icon" src="" class="w-20 h-20 md:w-32 md:h-32 rounded-2xl object-cover shadow-sm border border-gray-100 dark:border-gray-700 flex-shrink-0 bg-gray-100 dark:bg-gray-800">
                 <div class="flex-1 min-w-0 w-full overflow-hidden">
                     <h1 id="detail-title" class="text-xl md:text-3xl font-bold text-gray-900 dark:text-white mb-1 leading-tight truncate"></h1>
                     <p class="text-xs md:text-sm text-indigo-600 dark:text-indigo-400 font-bold mb-3 app-dynamic-title truncate">Webapp Sikho</p>
                     
-                    <!-- Fixed Mobile Stats Row -->
                     <div class="flex justify-between items-center bg-gray-50 dark:bg-gray-800 rounded-xl p-2 md:p-3 border border-gray-100 dark:border-gray-700 mt-2 w-full">
                         <div class="flex flex-col items-center justify-center flex-1">
                             <span class="font-bold text-gray-900 dark:text-white flex items-center gap-1 text-sm md:text-base"><span id="detail-rating-avg">0.0</span> <i class="fas fa-star text-[10px] md:text-xs text-yellow-400"></i></span>
@@ -171,9 +139,7 @@
                 <div class="px-4 md:px-6 flex justify-between items-end mb-3">
                     <h3 data-key="screenshots" class="text-lg font-bold text-gray-800 dark:text-white">Screenshots</h3>
                 </div>
-                <div id="detail-screenshots" class="flex overflow-x-auto hide-scrollbar gap-3 px-4 md:px-6 snap-x pb-4">
-                    <!-- Screenshots -->
-                </div>
+                <div id="detail-screenshots" class="flex overflow-x-auto hide-scrollbar gap-3 px-4 md:px-6 snap-x pb-4"></div>
             </div>
 
             <div class="p-4 md:p-6 border-t border-gray-100 dark:border-gray-800 mt-2">
@@ -203,16 +169,12 @@
                     </div>
                 </div>
 
-                <div id="reviews-list" class="flex flex-col gap-4">
-                    <!-- Reviews list -->
-                </div>
+                <div id="reviews-list" class="flex flex-col gap-4"></div>
             </div>
         </div>
 
         <div class="fixed bottom-0 w-full bg-white dark:bg-gray-900 border-t dark:border-gray-800 p-4 shadow-[0_-10px_15px_-3px_rgba(0,0,0,0.1)] z-20">
-            <div id="detail-actions" class="max-w-4xl mx-auto flex gap-3">
-                <!-- Action buttons -->
-            </div>
+            <div id="detail-actions" class="max-w-4xl mx-auto flex gap-3"></div>
         </div>
     </div>
 
@@ -289,7 +251,6 @@
         try {
             if (window.Telegram && window.Telegram.WebApp) {
                 const tg = window.Telegram.WebApp;
-                tg.expand();
                 if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
                     tgUser.id = tg.initDataUnsafe.user.id.toString();
                     tgUser.name = tg.initDataUnsafe.user.first_name || tg.initDataUnsafe.user.username;
@@ -308,7 +269,21 @@
         
         document.getElementById('user-display-name').textContent = tgUser.name;
 
-        // Dark Mode Logic
+        // ==================== AD SYSTEM CONFIG ====================
+        const AD_LINKS = [
+            "https://omg10.com/4/9446627",
+            "https://omg10.com/4/9717825"
+        ];
+        const AD_DURATION = 10; // seconds
+        let currentAdIndex = 0;
+        let adWindow = null;
+        let adTimer = null;
+        let adCheckInterval = null;
+        let adStartTime = 0;
+        let isAdInProgress = false;
+        // =========================================================
+
+        // Dark Mode
         window.toggleDarkMode = () => {
             document.documentElement.classList.toggle('dark');
             const isDark = document.documentElement.classList.contains('dark');
@@ -349,7 +324,11 @@
                 rate_this: "Rate this file",
                 submit_review: "Submit Review",
                 update_review: "Update Review",
-                no_reviews: "No reviews yet. Be the first to review!"
+                no_reviews: "No reviews yet. Be the first to review!",
+                ad_close: "✓ Close the ad tab to continue",
+                ad_short: "⚠️ You must stay 10 seconds! Try again.",
+                ad_blocked: "⚠️ Popup blocked! Please allow popups.",
+                ad_in_progress: "⚠️ Please complete the current ad first!"
             },
             hi: {
                 loading_data: "लोड हो रहा है...",
@@ -375,7 +354,11 @@
                 rate_this: "इस फाइल को रेट करें",
                 submit_review: "समीक्षा जमा करें",
                 update_review: "समीक्षा अपडेट करें",
-                no_reviews: "अभी तक कोई समीक्षा नहीं। पहली समीक्षा लिखें!"
+                no_reviews: "अभी तक कोई समीक्षा नहीं। पहली समीक्षा लिखें!",
+                ad_close: "✓ जारी रखने के लिए विज्ञापन टैब बंद करें",
+                ad_short: "⚠️ आपको 10 सेकंड रुकना होगा! फिर कोशिश करें।",
+                ad_blocked: "⚠️ पॉपअप अवरुद्ध! पॉपअप की अनुमति दें।",
+                ad_in_progress: "⚠️ पहले वर्तमान विज्ञापन पूरा करें!"
             },
             bn: {
                 loading_data: "লোড হচ্ছে...",
@@ -401,7 +384,11 @@
                 rate_this: "এই ফাইলটি রেট করুন",
                 submit_review: "পর্যালোচনা জমা দিন",
                 update_review: "পর্যালোচনা আপডেট করুন",
-                no_reviews: "এখনও কোন পর্যালোচনা নেই। প্রথম হন!"
+                no_reviews: "এখনও কোন পর্যালোচনা নেই। প্রথম হন!",
+                ad_close: "✓ চালিয়ে যেতে বিজ্ঞাপন ট্যাব বন্ধ করুন",
+                ad_short: "⚠️ আপনাকে 10 সেকেন্ড থাকতে হবে! আবার চেষ্টা করুন।",
+                ad_blocked: "⚠️ পপআপ ব্লক! পপআপ চালু করুন।",
+                ad_in_progress: "⚠️ প্রথমে বর্তমান বিজ্ঞাপনটি সম্পন্ন করুন!"
             }
         };
 
@@ -441,7 +428,6 @@
             document.getElementById('language-modal').classList.add('hidden');
         }
 
-        // --- YouTube Style Skeleton Loader ---
         function showSkeletonLoader() {
             const grid = document.getElementById('files-grid');
             grid.innerHTML = '';
@@ -463,7 +449,6 @@
         }
 
         async function loadData() {
-            // Show Shimmer Effect Before Fetching
             showSkeletonLoader();
 
             try {
@@ -559,10 +544,9 @@
             } catch(e) { console.error("Error loading files", e); }
         }
 
-        // --- Render Home Grid ---
         function renderFiles() {
             const grid = document.getElementById('files-grid');
-            grid.innerHTML = ''; // This will remove the skeletons
+            grid.innerHTML = '';
             const term = document.getElementById('searchInput').value.toLowerCase();
             const filtered = allFiles.filter(f => (f.title || '').toLowerCase().includes(term));
 
@@ -807,10 +791,14 @@
             }
         });
 
-        // --- Download / Ad Logic ---
+        // ==================== AD SYSTEM (Direct Link) ====================
+        function getCount(id) {
+            return parseInt(localStorage.getItem(`adCount_${id}`)) || 0;
+        }
+
         function updateDetailButtonState(file) {
             const req = parseInt(file.requiredAds) || 5;
-            const count = parseInt(localStorage.getItem(`adCount_${file.id}`)) || 0;
+            const count = getCount(file.id);
             const isUnlocked = count >= req;
             const actionContainer = document.getElementById('detail-actions');
 
@@ -834,58 +822,122 @@
 
         window.unlockFile = async (id, req) => {
             const btn = document.getElementById('unlock-action-btn');
-            if(!btn || btn.disabled) return;
-            
+            if (!btn || btn.disabled) return;
+
+            if (isAdInProgress) {
+                showToast(getText('ad_in_progress'));
+                return;
+            }
+
             btn.disabled = true;
             btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> <span>${getText('loading_ad')}</span>`;
 
             try {
-                if (window.Adsgram) {
-                    const AdController = window.Adsgram.init({ blockId: "int-38974" });
-                    await AdController.show();
-                } else {
-                    await new Promise(r => setTimeout(r, 1500)); 
+                const adUrl = AD_LINKS[currentAdIndex % AD_LINKS.length];
+                
+                // ব্রাউজারে নতুন ট্যাবে অ্যাড ওপেন
+                adWindow = window.open(adUrl, '_blank');
+
+                if (!adWindow || adWindow.closed || typeof adWindow.closed === 'undefined') {
+                    btn.disabled = false;
+                    btn.innerHTML = `<i class="fas fa-lock"></i> <span>${getText('unlock_btn')} (${getCount(id)}/${req})</span>`;
+                    showToast(getText('ad_blocked'));
+                    return;
                 }
 
-                let count = parseInt(localStorage.getItem(`adCount_${id}`)) || 0;
-                count++;
-                localStorage.setItem(`adCount_${id}`, count);
+                isAdInProgress = true;
+                adStartTime = Date.now();
 
-                if(count >= req) {
-                    showToast(getText('unlocked_msg'));
-                    saveToHistory(id);
-                    
-                    try {
-                        const fileRef = doc(db, "files", id);
-                        await updateDoc(fileRef, { downloads: increment(1) });
-                    } catch(e) { console.error("Error updating download count:", e) }
+                let remaining = AD_DURATION;
+                btn.innerHTML = `<i class="fas fa-clock"></i> <span>${getText('wait_text', { cd: remaining })}</span>`;
 
-                    const file = allFiles.find(f => f.id === id);
-                    if(file) file.downloads++; 
-                    
-                    updateDetailButtonState(file);
-                    document.getElementById('detail-downloads').textContent = formatNumber(file.downloads);
-                    renderFiles(); 
-                    renderHistory();
-                } else {
-                    showToast(getText('progress_text', {count, req}));
-                    let cd = timerDuration;
-                    const int = setInterval(() => {
-                        btn.innerHTML = `<i class="fas fa-clock"></i> <span>${getText('wait_text', {cd})}</span>`;
-                        cd--;
-                        if(cd < 0) {
-                            clearInterval(int);
+                if (adTimer) clearInterval(adTimer);
+                adTimer = setInterval(() => {
+                    remaining--;
+                    if (remaining > 0) {
+                        btn.innerHTML = `<i class="fas fa-clock"></i> <span>${getText('wait_text', { cd: remaining })}</span>`;
+                    } else {
+                        clearInterval(adTimer);
+                        adTimer = null;
+                        btn.innerHTML = `<i class="fas fa-check-circle text-green-400"></i> <span>${getText('ad_close')}</span>`;
+                    }
+                }, 1000);
+
+                if (adCheckInterval) clearInterval(adCheckInterval);
+                adCheckInterval = setInterval(async () => {
+                    const elapsed = (Date.now() - adStartTime) / 1000;
+
+                    if (adWindow && adWindow.closed) {
+                        clearInterval(adCheckInterval);
+                        if (adTimer) clearInterval(adTimer);
+                        adCheckInterval = null;
+                        adTimer = null;
+                        isAdInProgress = false;
+
+                        if (elapsed >= AD_DURATION) {
+                            await handleSuccessfulAd(id, req, btn);
+                        } else {
+                            showToast(getText('ad_short'));
                             btn.disabled = false;
-                            btn.innerHTML = `<i class="fas fa-lock"></i> <span>${getText('unlock_btn')} (${count}/${req})</span>`;
+                            btn.innerHTML = `<i class="fas fa-lock"></i> <span>${getText('unlock_btn')} (${getCount(id)}/${req})</span>`;
                         }
-                    }, 1000);
-                }
-            } catch(e) {
+                        return;
+                    }
+                }, 500);
+
+            } catch (e) {
                 console.error("Ad error: ", e);
+                if (adTimer) clearInterval(adTimer);
+                if (adCheckInterval) clearInterval(adCheckInterval);
+                adTimer = null;
+                adCheckInterval = null;
+                isAdInProgress = false;
                 btn.disabled = false;
-                btn.innerHTML = `<i class="fas fa-exclamation-triangle"></i> <span>${getText('ad_failed')}</span>`;
+                btn.innerHTML = `<i class="fas fa-lock"></i> <span>${getText('unlock_btn')} (${getCount(id)}/${req})</span>`;
+                showToast(getText('ad_failed'));
             }
         };
+
+        async function handleSuccessfulAd(id, req, btn) {
+            currentAdIndex++;
+
+            let count = getCount(id);
+            count++;
+            localStorage.setItem(`adCount_${id}`, count);
+
+            isAdInProgress = false;
+
+            if (count >= req) {
+                showToast(getText('unlocked_msg'));
+                saveToHistory(id);
+
+                try {
+                    const fileRef = doc(db, "files", id);
+                    await updateDoc(fileRef, { downloads: increment(1) });
+                } catch (e) { console.error("Error updating download count:", e); }
+
+                const file = allFiles.find(f => f.id === id);
+                if (file) file.downloads++;
+
+                updateDetailButtonState(file);
+                document.getElementById('detail-downloads').textContent = formatNumber(file.downloads);
+                renderFiles();
+                renderHistory();
+            } else {
+                showToast(getText('progress_text', { count, req }));
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerHTML = `<i class="fas fa-lock"></i> <span>${getText('unlock_btn')} (${count}/${req})</span>`;
+                }
+            }
+        }
+
+        // পেজ আনলোডে টাইমার ক্লিনআপ
+        window.addEventListener('beforeunload', () => {
+            if (adTimer) clearInterval(adTimer);
+            if (adCheckInterval) clearInterval(adCheckInterval);
+        });
+        // ==================== END AD SYSTEM ====================
 
         // --- History Logic ---
         function saveToHistory(fileId) {
@@ -905,8 +957,7 @@
                 const file = allFiles.find(f => f.id === id);
                 if(!file) return false;
                 const req = parseInt(file.requiredAds) || 5;
-                const count = parseInt(localStorage.getItem(`adCount_${id}`)) || 0;
-                return count >= req;
+                return getCount(id) >= req;
             });
 
             historyList.innerHTML = '';
@@ -975,7 +1026,7 @@
             try {
                 await signInAnonymously(auth);
             } catch (error) {
-                console.warn("Anonymous auth failed (Check Firebase auth settings):", error);
+                console.warn("Anonymous auth failed:", error);
             }
             loadData();
         }
