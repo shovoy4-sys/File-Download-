@@ -3,12 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>File Downloader</title>
+    <title>Webapp Sikho - File Downloader</title>
+    <meta name="description" content="Watch Ads, Unlock & Download files securely with Webapp Sikho" />
+    <meta property="og:title" content="Webapp Sikho - File Downloader" />
+    <meta property="og:description" content="Watch Ads, Unlock & Download files securely with Webapp Sikho" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
-            theme: { extend: {} }
+            theme: {
+                extend: {}
+            }
         }
     </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -17,12 +25,21 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     
     <style>
-        .hide-scrollbar::-webkit-scrollbar { display: none; }
-        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        /* Hide scrollbar for screenshots */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        /* Star rating hover animation */
         .star-btn { transition: transform 0.1s, color 0.2s; }
         .star-btn:active { transform: scale(0.8); }
+        /* Slider Transition */
         .slider-track { transition: transform 0.5s ease-in-out; }
         
+        /* YouTube Style Skeleton Shimmer Effect */
         @keyframes shimmer {
             0% { transform: translateX(-100%); }
             100% { transform: translateX(100%); }
@@ -30,9 +47,11 @@
         .skeleton-box {
             position: relative;
             overflow: hidden;
-            background-color: #e5e7eb;
+            background-color: #e5e7eb; /* bg-gray-200 */
         }
-        .dark .skeleton-box { background-color: #374151; }
+        .dark .skeleton-box {
+            background-color: #374151; /* bg-gray-700 */
+        }
         .skeleton-box::after {
             content: '';
             position: absolute;
@@ -44,12 +63,23 @@
         .dark .skeleton-box::after {
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
         }
+
+        /* Pulse animation for timer */
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(0.95); opacity: 0.8; }
+        }
+        .pulse-timer {
+            animation: pulse-ring 2s infinite ease-in-out;
+        }
     </style>
 </head>
 <body class="bg-gray-50 dark:bg-gray-900 font-sans text-gray-800 dark:text-gray-200 pb-20 transition-colors duration-300">
 
     <!-- ================= HOME VIEW ================= -->
     <div id="home-view" class="container mx-auto p-4 max-w-7xl">
+        <!-- Header -->
         <header class="bg-gradient-to-br from-indigo-600 to-purple-700 text-white p-6 rounded-2xl shadow-xl mb-6 relative overflow-hidden transition-all duration-300">
             <div class="absolute top-0 right-0 opacity-10 transform translate-x-10 -translate-y-10">
                 <i class="fas fa-cloud-download-alt text-9xl"></i>
@@ -58,7 +88,8 @@
                 <div class="flex items-center gap-2 bg-black/20 px-3 py-1.5 rounded-full text-sm backdrop-blur-sm border border-white/10">
                     <i class="fas fa-user-circle"></i> <span id="user-display-name">Loading...</span>
                 </div>
-                <button onclick="window.toggleDarkMode()" class="bg-black/20 hover:bg-black/40 text-white w-9 h-9 rounded-full flex items-center justify-center backdrop-blur-sm border border-white/10 transition-colors">
+                <!-- Dark Mode Toggle -->
+                <button onclick="window.toggleDarkMode()" class="bg-black/20 hover:bg-black/40 text-white w-9 h-9 rounded-full flex items-center justify-center backdrop-blur-sm border border-white/10 transition-colors" title="Toggle Dark Mode">
                     <i id="theme-icon" class="fas fa-moon"></i>
                 </button>
             </div>
@@ -72,16 +103,25 @@
 
         <div id="ad-container-1" class="my-4 flex justify-center min-h-[50px]"></div>
         
+        <!-- Animated Slider Wrapper -->
         <div id="slider-wrapper" class="w-full h-40 md:h-80 bg-gray-200 dark:bg-gray-800 rounded-xl mb-6 overflow-hidden relative shadow-md hidden border border-transparent dark:border-gray-700">
-            <div id="slider-track" class="flex slider-track h-full w-full"></div>
-            <div id="slider-dots" class="absolute bottom-2 w-full flex justify-center gap-2 z-10"></div>
+            <div id="slider-track" class="flex slider-track h-full w-full">
+                <!-- Slides will be injected here -->
+            </div>
+            <!-- Slider Dots -->
+            <div id="slider-dots" class="absolute bottom-2 w-full flex justify-center gap-2 z-10">
+                <!-- Dots injected here -->
+            </div>
         </div>
         
         <div id="ad-container-2" class="my-4 flex justify-center min-h-[50px]"></div>
 
         <h2 data-key="available_files" class="text-xl font-bold mb-4 px-1 text-gray-800 dark:text-gray-100">Available Files</h2>
         
-        <div id="files-grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-6"></div>
+        <!-- Grid -->
+        <div id="files-grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-6">
+            <!-- Files & Skeletons injected here -->
+        </div>
     </div>
 
     <!-- ================= HISTORY VIEW ================= -->
@@ -91,7 +131,9 @@
             <p data-key="history_subtitle" class="text-gray-500 dark:text-gray-400 mt-2">Files you have unlocked</p>
         </header>
 
-        <div id="history-list" class="flex flex-col gap-4"></div>
+        <div id="history-list" class="flex flex-col gap-4">
+            <!-- History items here -->
+        </div>
         <div id="empty-history" class="hidden text-center py-10">
             <i class="fas fa-box-open text-6xl text-gray-300 dark:text-gray-600 mb-4"></i>
             <p data-key="empty_history" class="text-gray-500 dark:text-gray-400 text-lg">No downloads yet.</p>
@@ -105,18 +147,20 @@
                 <i class="fas fa-arrow-left text-xl"></i>
             </button>
             <div class="ml-4 flex items-center gap-3">
-                <img id="detail-small-icon" src="" class="w-8 h-8 rounded-md object-cover hidden shadow-sm">
+                <img id="detail-small-icon" src="" class="w-8 h-8 rounded-md object-cover hidden shadow-sm" alt="Thumbnail">
                 <h2 id="detail-header-title" class="text-lg font-bold text-gray-800 dark:text-white line-clamp-1">App Details</h2>
             </div>
         </div>
 
-        <div class="flex-1 overflow-y-auto pb-24 bg-white dark:bg-gray-900">
+        <div class="flex-1 overflow-y-auto pb-32 bg-white dark:bg-gray-900">
+            <!-- Responsive App Header Fix -->
             <div class="p-4 md:p-6 flex gap-4 items-start">
-                <img id="detail-icon" src="" class="w-20 h-20 md:w-32 md:h-32 rounded-2xl object-cover shadow-sm border border-gray-100 dark:border-gray-700 flex-shrink-0 bg-gray-100 dark:bg-gray-800">
+                <img id="detail-icon" src="" class="w-20 h-20 md:w-32 md:h-32 rounded-2xl object-cover shadow-sm border border-gray-100 dark:border-gray-700 flex-shrink-0 bg-gray-100 dark:bg-gray-800" alt="Icon">
                 <div class="flex-1 min-w-0 w-full overflow-hidden">
                     <h1 id="detail-title" class="text-xl md:text-3xl font-bold text-gray-900 dark:text-white mb-1 leading-tight truncate"></h1>
                     <p class="text-xs md:text-sm text-indigo-600 dark:text-indigo-400 font-bold mb-3 app-dynamic-title truncate">Webapp Sikho</p>
                     
+                    <!-- Fixed Mobile Stats Row -->
                     <div class="flex justify-between items-center bg-gray-50 dark:bg-gray-800 rounded-xl p-2 md:p-3 border border-gray-100 dark:border-gray-700 mt-2 w-full">
                         <div class="flex flex-col items-center justify-center flex-1">
                             <span class="font-bold text-gray-900 dark:text-white flex items-center gap-1 text-sm md:text-base"><span id="detail-rating-avg">0.0</span> <i class="fas fa-star text-[10px] md:text-xs text-yellow-400"></i></span>
@@ -136,11 +180,36 @@
                 </div>
             </div>
 
+            <!-- Ad Progress & Live Timer Card (shows during active ad) -->
+            <div id="ad-active-status-card" class="hidden mx-4 md:mx-6 mb-4 p-4 rounded-2xl bg-indigo-50 dark:bg-indigo-950/60 border-2 border-indigo-200 dark:border-indigo-800/80 transition-all shadow-sm">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="flex items-center gap-2">
+                        <span class="relative flex h-3 w-3">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-3 w-3 bg-indigo-600"></span>
+                        </span>
+                        <span id="ad-status-title" class="font-bold text-sm text-indigo-900 dark:text-indigo-200">Ad in Progress</span>
+                    </div>
+                    <span id="ad-status-countdown-badge" class="px-2.5 py-1 bg-indigo-600 text-white text-xs font-extrabold rounded-full pulse-timer shadow-sm">
+                        10s remaining
+                    </span>
+                </div>
+                <!-- Progress bar -->
+                <div class="w-full bg-indigo-200 dark:bg-indigo-900 rounded-full h-2 overflow-hidden mb-2">
+                    <div id="ad-progress-bar" class="bg-indigo-600 h-2 rounded-full transition-all duration-1000 ease-linear" style="width: 100%"></div>
+                </div>
+                <p id="ad-status-note" class="text-xs text-indigo-700 dark:text-indigo-300">
+                    <i class="fas fa-exclamation-circle mr-1"></i> অনুগ্রহ করে ওপেন হওয়া ট্যাবে কমপক্ষে ১০ সেকেন্ড থাকুন।
+                </p>
+            </div>
+
             <div class="mt-2">
                 <div class="px-4 md:px-6 flex justify-between items-end mb-3">
                     <h3 data-key="screenshots" class="text-lg font-bold text-gray-800 dark:text-white">Screenshots</h3>
                 </div>
-                <div id="detail-screenshots" class="flex overflow-x-auto hide-scrollbar gap-3 px-4 md:px-6 snap-x pb-4"></div>
+                <div id="detail-screenshots" class="flex overflow-x-auto hide-scrollbar gap-3 px-4 md:px-6 snap-x pb-4">
+                    <!-- Screenshots -->
+                </div>
             </div>
 
             <div class="p-4 md:p-6 border-t border-gray-100 dark:border-gray-800 mt-2">
@@ -170,12 +239,32 @@
                     </div>
                 </div>
 
-                <div id="reviews-list" class="flex flex-col gap-4"></div>
+                <div id="reviews-list" class="flex flex-col gap-4">
+                    <!-- Reviews list -->
+                </div>
             </div>
         </div>
 
         <div class="fixed bottom-0 w-full bg-white dark:bg-gray-900 border-t dark:border-gray-800 p-4 shadow-[0_-10px_15px_-3px_rgba(0,0,0,0.1)] z-20">
-            <div id="detail-actions" class="max-w-4xl mx-auto flex gap-3"></div>
+            <div id="detail-actions" class="max-w-4xl mx-auto flex flex-col gap-2">
+                <!-- Action buttons -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= EARLY RETURN WARNING MODAL ================= -->
+    <div id="warning-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[90] hidden items-center justify-center p-4">
+        <div class="bg-white dark:bg-gray-800 rounded-3xl max-w-sm w-full p-6 text-center shadow-2xl border border-red-200 dark:border-red-900/60 transform transition-all animate-bounce-once">
+            <div class="w-16 h-16 bg-red-100 dark:bg-red-900/40 text-red-600 dark:text-red-400 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl shadow-inner">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <h3 id="warning-modal-title" class="text-xl font-bold text-gray-900 dark:text-white mb-2">সতর্কবার্তা!</h3>
+            <p id="warning-modal-desc" class="text-sm text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+                আপনি বিজ্ঞাপন পেজে ১০ সেকেন্ড থাকার আগেই ফিরে এসেছেন! আনলক সফল করতে আপনাকে অবশ্যই সম্পূর্ণ ১০ সেকেন্ড ওই ট্যাবে থাকতে হবে। অনুগ্রহ করে পুনরায় বিজ্ঞাপনটি দেখুন।
+            </p>
+            <button onclick="window.closeWarningModal()" class="w-full py-3.5 bg-red-600 hover:bg-red-700 active:bg-red-800 text-white font-bold rounded-xl transition-all shadow-md flex items-center justify-center gap-2">
+                <i class="fas fa-redo-alt"></i> <span id="warning-modal-btn">পুনরায় অ্যাড দেখুন</span>
+            </button>
         </div>
     </div>
 
@@ -184,7 +273,7 @@
         <button onclick="window.closeImageViewer()" class="absolute top-6 right-6 text-white bg-white/20 hover:bg-white/40 rounded-full w-10 h-10 flex items-center justify-center transition-colors">
             <i class="fas fa-times text-xl"></i>
         </button>
-        <img id="image-viewer-img" src="" class="max-w-[95%] max-h-[85vh] object-contain rounded-lg shadow-2xl transform scale-95 transition-transform duration-300">
+        <img id="image-viewer-img" src="" class="max-w-[95%] max-h-[85vh] object-contain rounded-lg shadow-2xl transform scale-95 transition-transform duration-300" alt="Preview">
     </div>
 
     <!-- ================= BOTTOM NAV ================= -->
@@ -217,7 +306,7 @@
     </div>
 
     <!-- Toast -->
-    <div id="toast" class="fixed top-6 left-1/2 transform -translate-x-1/2 -translate-y-24 opacity-0 z-[70] transition-all duration-300">
+    <div id="toast" class="fixed top-6 left-1/2 transform -translate-x-1/2 -translate-y-24 opacity-0 z-[70] transition-all duration-300 pointer-events-none">
         <div class="bg-gray-800 dark:bg-gray-100 text-white dark:text-gray-900 py-3 px-6 rounded-full shadow-2xl flex items-center gap-3">
             <i class="fas fa-info-circle text-indigo-400 dark:text-indigo-600"></i><span id="toast-message" class="text-sm font-medium"></span>
         </div>
@@ -225,8 +314,15 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getFirestore, collection, getDocs, doc, getDoc, updateDoc, increment, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, doc, getDoc, updateDoc, increment, query, orderBy, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
         import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+        // Direct Ad Links specified by user
+        const DIRECT_AD_LINKS = [
+            "https://omg10.com/4/9446627",
+            "https://omg10.com/4/9717825"
+        ];
+        const REQUIRED_AD_SECONDS = 10;
 
         const firebaseConfig = {
             apiKey: "AIzaSyA2Iu47JLN5NI3y_O9DHDwVFGyGMka_ODw",
@@ -242,16 +338,21 @@
         const auth = getAuth(app);
 
         let allFiles = [];
-        let timerDuration = 10;
-        let currentLang = 'en';
+        let timerDuration = REQUIRED_AD_SECONDS;
+        let currentLang = 'bn'; // default or stored
         let currentFileId = null;
         let userRating = 0;
-        let slideInterval = null; 
+        let slideInterval = null;
+
+        // Active Ad Session Tracking
+        let activeAdSession = null;
+        let countdownTimerInterval = null;
         
         let tgUser = { id: null, name: "Guest User" };
         try {
             if (window.Telegram && window.Telegram.WebApp) {
                 const tg = window.Telegram.WebApp;
+                tg.expand();
                 if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
                     tgUser.id = tg.initDataUnsafe.user.id.toString();
                     tgUser.name = tg.initDataUnsafe.user.first_name || tg.initDataUnsafe.user.username;
@@ -270,24 +371,7 @@
         
         document.getElementById('user-display-name').textContent = tgUser.name;
 
-        // ==================== AD SYSTEM CONFIG ====================
-        const AD_LINKS = [
-            "https://omg10.com/4/9446627",
-            "https://omg10.com/4/9717825"
-        ];
-        const AD_DURATION = 10; // seconds
-
-        let currentAdIndex = 0;
-        let adStartTime = 0;
-        let adCheckInterval = null;
-        let adCountdownInterval = null;
-        let isAdInProgress = false;
-        let pendingAdId = null;
-        let pendingAdReq = null;
-        let pendingAdBtn = null;
-        // =========================================================
-
-        // Dark Mode
+        // Dark Mode Logic
         window.toggleDarkMode = () => {
             document.documentElement.classList.toggle('dark');
             const isDark = document.documentElement.classList.contains('dark');
@@ -311,11 +395,19 @@
                 search_placeholder: "Search files...",
                 available_files: "Available Files",
                 unlock_btn: "Watch Ad to Unlock",
-                loading_ad: "Loading Ad...",
+                unlock_ad_n: "Watch Ad {num} to Unlock ({count}/{req})",
+                ad_in_progress: "Stay on ad tab: {sec}s remaining",
+                ad_status_title: "Ad in Progress ({count}/{req})",
+                ad_stay_note: "Please stay on the opened ad tab for at least 10 seconds.",
+                warning_title: "Warning: Returned Too Early!",
+                warning_desc: "You returned before staying on the ad page for 10 seconds! To unlock the file, you must spend at least 10 seconds on the ad tab. Please watch the ad again.",
+                warning_btn: "Watch Ad Again",
+                ad_completed_step: "Ad {num} completed successfully! ({count}/{req})",
+                loading_ad: "Opening Ad Link...",
                 wait_text: "Please wait {cd}s...",
                 progress_text: "Progress: {count}/{req} Ads watched",
-                unlocked_msg: "Unlocked Successfully!",
-                ad_failed: "Ad Failed. Retry",
+                unlocked_msg: "File Unlocked Successfully!",
+                ad_failed: "Failed to open link. Please retry.",
                 download_default: "Download",
                 nav_home: "Home",
                 nav_history: "History",
@@ -328,12 +420,7 @@
                 rate_this: "Rate this file",
                 submit_review: "Submit Review",
                 update_review: "Update Review",
-                no_reviews: "No reviews yet. Be the first to review!",
-                ad_close: "✓ Now close the ad tab",
-                ad_short: "⚠️ You must stay 10 seconds! Try again.",
-                ad_blocked: "⚠️ Popup blocked! Please allow popups.",
-                ad_in_progress: "⚠️ Please complete the current ad first!",
-                ad_return: "Come back after 10 seconds..."
+                no_reviews: "No reviews yet. Be the first to review!"
             },
             hi: {
                 loading_data: "लोड हो रहा है...",
@@ -342,7 +429,15 @@
                 search_placeholder: "फाइलें खोजें...",
                 available_files: "उपलब्ध फाइलें",
                 unlock_btn: "अनलॉक के लिए विज्ञापन देखें",
-                loading_ad: "विज्ञापन लोड हो रहा है...",
+                unlock_ad_n: "अनलॉक के लिए विज्ञापन {num} देखें ({count}/{req})",
+                ad_in_progress: "विज्ञापन टैब में रहें: {sec}s शेष",
+                ad_status_title: "विज्ञापन प्रगति पर है ({count}/{req})",
+                ad_stay_note: "कृपया खुले हुए विज्ञापन टैब पर कम से कम 10 सेकंड रुकें।",
+                warning_title: "चेतावनी: समय से पहले वापस आ गए!",
+                warning_desc: "आप विज्ञापन पृष्ठ पर 10 सेकंड रहने से पहले ही वापस आ गए! अनलॉक करने के लिए कम से कम 10 सेकंड रहना अनिवार्य है। कृपया विज्ञापन पुनः देखें।",
+                warning_btn: "पुनः विज्ञापन देखें",
+                ad_completed_step: "विज्ञापन {num} सफलतापूर्वक पूरा हुआ! ({count}/{req})",
+                loading_ad: "विज्ञापन लिंक खोला जा रहा है...",
                 wait_text: "कृपया रुकें {cd}s...",
                 progress_text: "प्रगति: {count}/{req} विज्ञापन देखे गए",
                 unlocked_msg: "फाइल अनलॉक हो गई!",
@@ -359,12 +454,7 @@
                 rate_this: "इस फाइल को रेट करें",
                 submit_review: "समीक्षा जमा करें",
                 update_review: "समीक्षा अपडेट करें",
-                no_reviews: "अभी तक कोई समीक्षा नहीं। पहली समीक्षा लिखें!",
-                ad_close: "✓ अब विज्ञापन टैब बंद करें",
-                ad_short: "⚠️ आपको 10 सेकंड रुकना होगा! फिर कोशिश करें।",
-                ad_blocked: "⚠️ पॉपअप अवरुद्ध! पॉपअप की अनुमति दें।",
-                ad_in_progress: "⚠️ पहले वर्तमान विज्ञापन पूरा करें!",
-                ad_return: "10 सेकंड बाद वापस आएं..."
+                no_reviews: "अभी तक कोई समीक्षा नहीं। पहली समीक्षा लिखें!"
             },
             bn: {
                 loading_data: "লোড হচ্ছে...",
@@ -373,11 +463,19 @@
                 search_placeholder: "ফাইল খুঁজুন...",
                 available_files: "উপলব্ধ ফাইল",
                 unlock_btn: "আনলক করতে বিজ্ঞাপন দেখুন",
-                loading_ad: "বিজ্ঞাপন লোড হচ্ছে...",
+                unlock_ad_n: "বিজ্ঞাপন {num} দেখে আনলক করুন ({count}/{req})",
+                ad_in_progress: "বিজ্ঞাপন ট্যাবে থাকুন: {sec}s বাকি",
+                ad_status_title: "বিজ্ঞাপন চলছে ({count}/{req})",
+                ad_stay_note: "ওপেন হওয়া বিজ্ঞাপনের ট্যাবে অবশ্যই কমপক্ষে ১০ সেকেন্ড থাকতে হবে।",
+                warning_title: "সতর্কবার্তা: নির্ধারিত সময়ের আগেই ফিরে এসেছেন!",
+                warning_desc: "আপনি বিজ্ঞাপন পেজে ১০ সেকেন্ড থাকার আগেই ফিরে এসেছেন! ফাইলটি আনলক করতে অবশ্যই পুরো ১০ সেকেন্ড ওই ট্যাবে থাকতে হবে। অনুগ্রহ করে পুনরায় বিজ্ঞাপনটি দেখুন।",
+                warning_btn: "পুনরায় অ্যাড দেখুন",
+                ad_completed_step: "বিজ্ঞাপন {num} সফলভাবে দেখা হয়েছে! ({count}/{req})",
+                loading_ad: "বিজ্ঞাপন লিংক ওপেন হচ্ছে...",
                 wait_text: "অপেক্ষা করুন {cd}s...",
                 progress_text: "অগ্রগতি: {count}/{req} বিজ্ঞাপন দেখা হয়েছে",
-                unlocked_msg: "আনলক সফল হয়েছে!",
-                ad_failed: "ব্যর্থ। আবার চেষ্টা করুন",
+                unlocked_msg: "ফাইল সফলভাবে আনলক হয়েছে!",
+                ad_failed: "লিংক খুলতে ব্যর্থ হয়েছে। আবার চেষ্টা করুন।",
                 download_default: "ডাউনলোড",
                 nav_home: "হোম",
                 nav_history: "ইতিহাস",
@@ -390,18 +488,13 @@
                 rate_this: "এই ফাইলটি রেট করুন",
                 submit_review: "পর্যালোচনা জমা দিন",
                 update_review: "পর্যালোচনা আপডেট করুন",
-                no_reviews: "এখনও কোন পর্যালোচনা নেই। প্রথম হন!",
-                ad_close: "✓ এখন বিজ্ঞাপন ট্যাব বন্ধ করুন",
-                ad_short: "⚠️ আপনাকে 10 সেকেন্ড থাকতে হবে! আবার চেষ্টা করুন।",
-                ad_blocked: "⚠️ পপআপ ব্লক! পপআপ চালু করুন।",
-                ad_in_progress: "⚠️ প্রথমে বর্তমান বিজ্ঞাপনটি সম্পন্ন করুন!",
-                ad_return: "১০ সেকেন্ড পর ফিরে আসুন..."
+                no_reviews: "এখনও কোন পর্যালোচনা নেই। প্রথম হন!"
             }
         };
 
         function getText(key, params = {}) {
-            let text = translations[currentLang][key] || key;
-            for (const param in params) { text = text.replace(`{${param}}`, params[param]); }
+            let text = (translations[currentLang] && translations[currentLang][key]) || (translations['en'][key]) || key;
+            for (const param in params) { text = text.replace(new RegExp(`\\{${param}\\}`, 'g'), params[param]); }
             return text;
         }
 
@@ -435,6 +528,7 @@
             document.getElementById('language-modal').classList.add('hidden');
         }
 
+        // --- Skeleton Loader ---
         function showSkeletonLoader() {
             const grid = document.getElementById('files-grid');
             grid.innerHTML = '';
@@ -462,7 +556,7 @@
                 const s = await getDoc(doc(db, "settings", "general"));
                 if(s.exists()) {
                     const data = s.data();
-                    timerDuration = data.timerDuration || 10;
+                    timerDuration = data.timerDuration || REQUIRED_AD_SECONDS;
                     
                     if(data.appTitle) {
                         document.title = data.appTitle;
@@ -508,7 +602,7 @@
                         let div = document.createElement('div');
                         div.className = `w-full h-full flex-shrink-0 ${s.linkUrl ? 'cursor-pointer' : ''}`;
                         if(s.linkUrl) div.onclick = () => window.open(s.linkUrl, '_blank');
-                        div.innerHTML = `<img src="${s.imageUrl}" class="w-full h-full object-cover">`;
+                        div.innerHTML = `<img src="${s.imageUrl}" class="w-full h-full object-cover" alt="Slide">`;
                         sTrack.appendChild(div);
 
                         if(slides.length > 1) {
@@ -551,6 +645,7 @@
             } catch(e) { console.error("Error loading files", e); }
         }
 
+        // --- Render Home Grid ---
         function renderFiles() {
             const grid = document.getElementById('files-grid');
             grid.innerHTML = '';
@@ -570,7 +665,7 @@
                     </div>
                     <div class="p-3 md:p-4 flex flex-col flex-1">
                         <h3 class="font-bold text-sm md:text-base text-gray-800 dark:text-white line-clamp-1 cursor-pointer mb-2" onclick="window.openDetails('${file.id}')">${file.title}</h3>
-                        <p class="text-[11px] md:text-xs text-gray-500 dark:text-gray-400 mb-3 line-clamp-2 flex-1">${file.description}</p>
+                        <p class="text-[11px] md:text-xs text-gray-500 dark:text-gray-400 mb-3 line-clamp-2 flex-1">${file.description || ''}</p>
                         <button onclick="window.openDetails('${file.id}')" class="w-full py-2 bg-indigo-50 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-400 hover:bg-indigo-600 dark:hover:bg-indigo-600 hover:text-white dark:hover:text-white active:scale-95 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 border border-indigo-100 dark:border-indigo-800/50">
                             <i class="fas fa-download text-xs"></i> ${getText('download_default')}
                         </button>
@@ -600,7 +695,7 @@
             images.forEach(imgUrl => {
                 scContainer.innerHTML += `
                     <div class="snap-center shrink-0 cursor-pointer" onclick="window.openImageViewer('${imgUrl}')">
-                        <img src="${imgUrl}" class="h-64 md:h-80 aspect-[9/16] rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm object-cover hover:shadow-md transition-shadow">
+                        <img src="${imgUrl}" class="h-64 md:h-80 aspect-[9/16] rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm object-cover hover:shadow-md transition-shadow" alt="Screenshot">
                     </div>
                 `;
             });
@@ -619,6 +714,7 @@
             currentFileId = null;
             document.getElementById('details-view').classList.add('hidden');
             document.getElementById('details-view').classList.remove('flex');
+            hideAdActiveCard();
         };
 
         window.openImageViewer = (src) => {
@@ -675,8 +771,8 @@
                 if(isOwner) {
                     actionHTML = `
                         <div class="absolute top-4 right-4 flex gap-3 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
-                            <button onclick="window.editReviewForm('${rev.userId}')" class="text-indigo-500 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300 transition-colors"><i class="fas fa-edit"></i></button>
-                            <button onclick="window.deleteReview('${rev.userId}')" class="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 transition-colors"><i class="fas fa-trash-alt"></i></button>
+                            <button onclick="window.editReviewForm('${rev.userId}')" class="text-indigo-500 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300 transition-colors" title="Edit"><i class="fas fa-edit"></i></button>
+                            <button onclick="window.deleteReview('${rev.userId}')" class="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 transition-colors" title="Delete"><i class="fas fa-trash-alt"></i></button>
                         </div>
                     `;
                 }
@@ -798,160 +894,296 @@
             }
         });
 
-        // ==================== AD SYSTEM (Focus Based) ====================
-        function getCount(id) {
-            return parseInt(localStorage.getItem(`adCount_${id}`)) || 0;
+        // --- DIRECT LINK AD LOGIC WITH 10s TAB TRACKING & FIRESTORE LOGGING ---
+        
+        function getRequiredAds(file) {
+            // Default 2 ads for the 2 direct links if not specified or greater
+            return parseInt(file.requiredAds) || 2;
+        }
+
+        function getAdLinkForIndex(adIndex) {
+            // adIndex is 0-based
+            return DIRECT_AD_LINKS[adIndex % DIRECT_AD_LINKS.length];
+        }
+
+        function showAdActiveCard(adNum, totalReq, remainingSeconds, totalSeconds) {
+            const card = document.getElementById('ad-active-status-card');
+            const title = document.getElementById('ad-status-title');
+            const badge = document.getElementById('ad-status-countdown-badge');
+            const pbar = document.getElementById('ad-progress-bar');
+            const note = document.getElementById('ad-status-note');
+
+            title.textContent = getText('ad_status_title', { count: adNum, req: totalReq });
+            badge.textContent = `${remainingSeconds}s remaining`;
+            note.innerHTML = `<i class="fas fa-exclamation-circle mr-1"></i> ${getText('ad_stay_note')}`;
+            
+            const pct = Math.max(0, Math.min(100, (remainingSeconds / totalSeconds) * 100));
+            pbar.style.width = `${pct}%`;
+            card.classList.remove('hidden');
+        }
+
+        function hideAdActiveCard() {
+            const card = document.getElementById('ad-active-status-card');
+            if(card) card.classList.add('hidden');
         }
 
         function updateDetailButtonState(file) {
-            const req = parseInt(file.requiredAds) || 5;
-            const count = getCount(file.id);
+            const req = getRequiredAds(file);
+            const count = parseInt(localStorage.getItem(`adCount_${file.id}`)) || 0;
             const isUnlocked = count >= req;
             const actionContainer = document.getElementById('detail-actions');
 
             if(isUnlocked) {
                 saveToHistory(file.id);
+                hideAdActiveCard();
                 actionContainer.innerHTML = `
-                    <a href="${file.downloadUrl}" target="_blank" class="flex-1 py-3.5 bg-green-600 hover:bg-green-700 text-white text-center rounded-xl font-bold shadow-lg transition-colors flex items-center justify-center gap-2">
-                        <i class="fas fa-download"></i> ${file.btnName1 || getText('download_default')}
-                    </a>
-                    ${file.downloadUrl2 ? `<a href="${file.downloadUrl2}" target="_blank" class="flex-1 py-3.5 bg-teal-600 hover:bg-teal-700 text-white text-center rounded-xl font-bold shadow-lg transition-colors flex items-center justify-center gap-2"><i class="fas fa-link"></i> ${file.btnName2 || 'Link 2'}</a>` : ''}
+                    <div class="flex gap-3 w-full">
+                        <a href="${file.downloadUrl}" target="_blank" rel="noopener noreferrer" class="flex-1 py-3.5 bg-green-600 hover:bg-green-700 text-white text-center rounded-xl font-bold shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2">
+                            <i class="fas fa-download"></i> ${file.btnName1 || getText('download_default')}
+                        </a>
+                        ${file.downloadUrl2 ? `<a href="${file.downloadUrl2}" target="_blank" rel="noopener noreferrer" class="flex-1 py-3.5 bg-teal-600 hover:bg-teal-700 text-white text-center rounded-xl font-bold shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2"><i class="fas fa-link"></i> ${file.btnName2 || 'Link 2'}</a>` : ''}
+                    </div>
                 `;
             } else {
+                const nextAdNum = count + 1;
+                const linkIndex = count % DIRECT_AD_LINKS.length;
+                const targetLink = DIRECT_AD_LINKS[linkIndex];
+
                 actionContainer.innerHTML = `
-                    <button id="unlock-action-btn" onclick="window.unlockFile('${file.id}', ${req})" class="w-full py-3.5 bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white rounded-xl font-bold shadow-lg transition-all flex items-center justify-center gap-2">
+                    <button id="unlock-action-btn" onclick="window.startDirectLinkAd('${file.id}', ${req}, ${count}, '${targetLink}')" class="w-full py-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 active:scale-[0.98] text-white rounded-xl font-bold shadow-lg transition-all flex items-center justify-center gap-3">
                         <i class="fas fa-lock"></i> 
-                        <span>${getText('unlock_btn')} (${count}/${req})</span>
+                        <span id="unlock-btn-text">${getText('unlock_ad_n', { num: nextAdNum, count, req })}</span>
                     </button>
+                    <div class="flex items-center justify-between text-[11px] text-gray-500 dark:text-gray-400 px-1">
+                        <span><i class="fas fa-clock mr-1 text-indigo-500"></i> প্রতিটি লিংকে ১০ সেকেন্ড থাকতে হবে</span>
+                        <span>বিজ্ঞাপন ${nextAdNum}/${req}</span>
+                    </div>
                 `;
             }
         }
 
-        window.unlockFile = (id, req) => {
+        // Direct Link Ad Execution
+        window.startDirectLinkAd = async (fileId, totalReq, currentCount, targetLink) => {
             const btn = document.getElementById('unlock-action-btn');
-            if (!btn || btn.disabled) return;
+            const btnText = document.getElementById('unlock-btn-text');
+            if(!btn || btn.disabled) return;
 
-            if (isAdInProgress) {
-                showToast(getText('ad_in_progress'));
-                return;
-            }
-
-            // স্টেট সেভ
-            pendingAdId = id;
-            pendingAdReq = req;
-            pendingAdBtn = btn;
+            const nextAdNum = currentCount + 1;
+            const requiredSec = timerDuration || REQUIRED_AD_SECONDS;
 
             btn.disabled = true;
-            btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> <span>${getText('loading_ad')}</span>`;
+            btn.classList.add('opacity-80', 'cursor-not-allowed');
+            if(btnText) btnText.innerHTML = `<i class="fas fa-spinner fa-spin mr-1"></i> ${getText('loading_ad')}`;
 
-            const adUrl = AD_LINKS[currentAdIndex % AD_LINKS.length];
-
-            // নতুন ট্যাবে অ্যাড ওপেন
-            const adWin = window.open(adUrl, '_blank');
-
-            if (!adWin) {
-                btn.disabled = false;
-                btn.innerHTML = `<i class="fas fa-lock"></i> <span>${getText('unlock_btn')} (${getCount(id)}/${req})</span>`;
-                showToast(getText('ad_blocked'));
-                pendingAdId = null; pendingAdReq = null; pendingAdBtn = null;
-                return;
+            // Save click record into Firestore
+            let clickDocId = null;
+            try {
+                const clickRecord = {
+                    fileId: fileId,
+                    fileTitle: (allFiles.find(f => f.id === fileId) || {}).title || '',
+                    userId: tgUser.id,
+                    userName: tgUser.name,
+                    adLink: targetLink,
+                    adNumber: nextAdNum,
+                    totalRequiredAds: totalReq,
+                    requiredDurationSeconds: requiredSec,
+                    status: 'clicked',
+                    clickedAt: new Date().toISOString(),
+                    timestamp: Date.now(),
+                    createdAt: serverTimestamp(),
+                    userAgent: navigator.userAgent
+                };
+                const docRef = await addDoc(collection(db, "ad_clicks"), clickRecord);
+                clickDocId = docRef.id;
+            } catch (err) {
+                console.error("Error saving ad click timestamp to database:", err);
             }
 
-            isAdInProgress = true;
-            adStartTime = Date.now();
+            // Open direct link in a new tab
+            const openedWindow = window.open(targetLink, '_blank');
+            if(!openedWindow) {
+                // If pop-up blocked or Telegram WebApp webview
+                try {
+                    window.location.href = targetLink;
+                } catch(e) { console.error(e); }
+            }
 
-            let remaining = AD_DURATION;
-            btn.innerHTML = `<i class="fas fa-clock"></i> <span>${getText('wait_text', { cd: remaining })}</span>`;
+            // Set up active ad session
+            const startTime = Date.now();
+            activeAdSession = {
+                fileId: fileId,
+                totalReq: totalReq,
+                currentCount: currentCount,
+                nextAdNum: nextAdNum,
+                targetLink: targetLink,
+                clickDocId: clickDocId,
+                startTime: startTime,
+                requiredSeconds: requiredSec,
+                hasLeftTab: false,
+                isCompleted: false,
+                isCancelled: false
+            };
 
-            // কাউন্টডাউন
-            if (adCountdownInterval) clearInterval(adCountdownInterval);
-            adCountdownInterval = setInterval(() => {
-                remaining--;
-                if (remaining > 0) {
-                    btn.innerHTML = `<i class="fas fa-clock"></i> <span>${getText('wait_text', { cd: remaining })}</span>`;
-                } else {
-                    clearInterval(adCountdownInterval);
-                    adCountdownInterval = null;
-                    btn.innerHTML = `<i class="fas fa-check-circle text-green-400"></i> <span>${getText('ad_close')}</span>`;
+            // Start live countdown timer UI
+            if(countdownTimerInterval) clearInterval(countdownTimerInterval);
+
+            showAdActiveCard(nextAdNum, totalReq, requiredSec, requiredSec);
+
+            countdownTimerInterval = setInterval(() => {
+                if(!activeAdSession || activeAdSession.isCompleted || activeAdSession.isCancelled) {
+                    clearInterval(countdownTimerInterval);
+                    return;
                 }
-            }, 1000);
 
-            // Focus check — ইউজার ফিরে আসলে ট্রিগার হবে
-            if (adCheckInterval) clearInterval(adCheckInterval);
-            adCheckInterval = setInterval(() => {
-                if (document.hasFocus()) {
-                    clearInterval(adCheckInterval);
-                    adCheckInterval = null;
-                    if (adCountdownInterval) { clearInterval(adCountdownInterval); adCountdownInterval = null; }
+                const elapsedSeconds = (Date.now() - activeAdSession.startTime) / 1000;
+                const remaining = Math.max(0, Math.ceil(activeAdSession.requiredSeconds - elapsedSeconds));
 
-                    const elapsed = (Date.now() - adStartTime) / 1000;
-                    isAdInProgress = false;
+                // Update UI button and active card
+                if(btnText) {
+                    btnText.innerHTML = `<i class="fas fa-stopwatch mr-1"></i> ${getText('ad_in_progress', { sec: remaining })}`;
+                }
+                showAdActiveCard(nextAdNum, totalReq, remaining, activeAdSession.requiredSeconds);
 
-                    const savedId = pendingAdId;
-                    const savedReq = pendingAdReq;
-                    const savedBtn = pendingAdBtn;
-
-                    pendingAdId = null; pendingAdReq = null; pendingAdBtn = null;
-
-                    if (elapsed >= AD_DURATION) {
-                        // ✅ সফল
-                        handleSuccessfulAd(savedId, savedReq, savedBtn);
-                    } else {
-                        // ❌ ১০ সেকেন্ড হয়নি
-                        showToast(getText('ad_short'));
-                        if (savedBtn) {
-                            savedBtn.disabled = false;
-                            savedBtn.innerHTML = `<i class="fas fa-lock"></i> <span>${getText('unlock_btn')} (${getCount(savedId)}/${savedReq})</span>`;
-                        }
-                    }
+                if(remaining <= 0) {
+                    clearInterval(countdownTimerInterval);
+                    // Time requirement reached!
+                    finishAdSuccess(activeAdSession);
                 }
             }, 500);
         };
 
-        async function handleSuccessfulAd(id, req, btn) {
-            if (!id || !req) return;
+        // Tab visibility and focus listener: Detect if user returned before 10s
+        function handleUserTabReturn() {
+            if(!activeAdSession || activeAdSession.isCompleted || activeAdSession.isCancelled) return;
 
-            // পরের অ্যাডের জন্য index বাড়াই
-            currentAdIndex++;
+            const elapsedSec = (Date.now() - activeAdSession.startTime) / 1000;
+            const requiredSec = activeAdSession.requiredSeconds;
 
-            let count = getCount(id);
-            count++;
-            localStorage.setItem(`adCount_${id}`, count);
-
-            if (count >= req) {
-                // ✅ আনলক
-                showToast(getText('unlocked_msg'));
-                saveToHistory(id);
-
-                try {
-                    const fileRef = doc(db, "files", id);
-                    await updateDoc(fileRef, { downloads: increment(1) });
-                } catch (e) { console.error("Error updating download count:", e); }
-
-                const file = allFiles.find(f => f.id === id);
-                if (file) file.downloads++;
-
-                updateDetailButtonState(file);
-                const dlEl = document.getElementById('detail-downloads');
-                if (dlEl) dlEl.textContent = formatNumber(file.downloads);
-                renderFiles();
-                renderHistory();
+            // If user returned before completing 10 seconds:
+            if(elapsedSec < (requiredSec - 0.5)) {
+                triggerEarlyReturnWarning(activeAdSession, elapsedSec);
             } else {
-                // পরের অ্যাডের জন্য প্রস্তুত
-                showToast(getText('progress_text', { count, req }));
-                if (btn) {
-                    btn.disabled = false;
-                    btn.innerHTML = `<i class="fas fa-lock"></i> <span>${getText('unlock_btn')} (${count}/${req})</span>`;
-                }
+                // Stayed 10+ seconds
+                finishAdSuccess(activeAdSession);
             }
         }
 
-        // পেজ আনলোডে ক্লিনআপ
-        window.addEventListener('beforeunload', () => {
-            if (adCountdownInterval) clearInterval(adCountdownInterval);
-            if (adCheckInterval) clearInterval(adCheckInterval);
+        window.addEventListener('focus', () => {
+            if(activeAdSession && !activeAdSession.isCompleted && !activeAdSession.isCancelled) {
+                handleUserTabReturn();
+            }
         });
-        // ==================== END AD SYSTEM ====================
+
+        document.addEventListener('visibilitychange', () => {
+            if(!activeAdSession) return;
+            if(document.visibilityState === 'hidden') {
+                activeAdSession.hasLeftTab = true;
+            } else if(document.visibilityState === 'visible') {
+                if(!activeAdSession.isCompleted && !activeAdSession.isCancelled) {
+                    handleUserTabReturn();
+                }
+            }
+        });
+
+        // Trigger warning when user returns early
+        async function triggerEarlyReturnWarning(session, elapsedSec) {
+            session.isCancelled = true;
+            if(countdownTimerInterval) clearInterval(countdownTimerInterval);
+            hideAdActiveCard();
+
+            // Update database log for early return
+            if(session.clickDocId) {
+                try {
+                    const clickRef = doc(db, "ad_clicks", session.clickDocId);
+                    await updateDoc(clickRef, {
+                        status: 'failed_early_return',
+                        timeSpentSeconds: Math.round(elapsedSec * 10) / 10,
+                        returnedAt: new Date().toISOString()
+                    });
+                } catch(err) {
+                    console.error("Error updating ad click database record:", err);
+                }
+            }
+
+            // Show early return warning modal
+            const modal = document.getElementById('warning-modal');
+            document.getElementById('warning-modal-title').textContent = getText('warning_title');
+            document.getElementById('warning-modal-desc').textContent = getText('warning_desc');
+            document.getElementById('warning-modal-btn').textContent = getText('warning_btn');
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+
+            // Reset button to initial ready state
+            const file = allFiles.find(f => f.id === session.fileId);
+            if(file) updateDetailButtonState(file);
+
+            activeAdSession = null;
+        }
+
+        window.closeWarningModal = () => {
+            const modal = document.getElementById('warning-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        };
+
+        // Finish ad successfully when 10 seconds requirement is met
+        async function finishAdSuccess(session) {
+            if(session.isCompleted || session.isCancelled) return;
+            session.isCompleted = true;
+            if(countdownTimerInterval) clearInterval(countdownTimerInterval);
+
+            const fileId = session.fileId;
+            const totalReq = session.totalReq;
+            const timeSpent = Math.max(session.requiredSeconds, Math.round((Date.now() - session.startTime) / 1000));
+
+            // Record completion in Firestore
+            if(session.clickDocId) {
+                try {
+                    const clickRef = doc(db, "ad_clicks", session.clickDocId);
+                    await updateDoc(clickRef, {
+                        status: 'completed',
+                        timeSpentSeconds: timeSpent,
+                        completedAt: new Date().toISOString()
+                    });
+                } catch(err) {
+                    console.error("Error recording completed ad click:", err);
+                }
+            }
+
+            // Update local ad count
+            let count = parseInt(localStorage.getItem(`adCount_${fileId}`)) || 0;
+            count++;
+            localStorage.setItem(`adCount_${fileId}`, count);
+
+            hideAdActiveCard();
+
+            if(count >= totalReq) {
+                // File Unlocked!
+                showToast(getText('unlocked_msg'));
+                saveToHistory(fileId);
+
+                try {
+                    const fileRef = doc(db, "files", fileId);
+                    await updateDoc(fileRef, { downloads: increment(1) });
+                } catch(e) { console.error("Error updating download count:", e) }
+
+                const file = allFiles.find(f => f.id === fileId);
+                if(file) file.downloads = (file.downloads || 0) + 1;
+
+                updateDetailButtonState(file);
+                document.getElementById('detail-downloads').textContent = formatNumber(file ? file.downloads : 0);
+                renderFiles(); 
+                renderHistory();
+            } else {
+                // Step completed, ready for next ad link
+                showToast(getText('ad_completed_step', { num: session.nextAdNum, count, req: totalReq }));
+                const file = allFiles.find(f => f.id === fileId);
+                if(file) updateDetailButtonState(file);
+            }
+
+            activeAdSession = null;
+        }
 
         // --- History Logic ---
         function saveToHistory(fileId) {
@@ -970,8 +1202,9 @@
             historyIds = historyIds.filter(id => {
                 const file = allFiles.find(f => f.id === id);
                 if(!file) return false;
-                const req = parseInt(file.requiredAds) || 5;
-                return getCount(id) >= req;
+                const req = getRequiredAds(file);
+                const count = parseInt(localStorage.getItem(`adCount_${id}`)) || 0;
+                return count >= req;
             });
 
             historyList.innerHTML = '';
@@ -988,7 +1221,7 @@
                         item.onclick = () => window.openDetails(file.id);
                         
                         item.innerHTML = `
-                            <img src="${file.thumbnailUrl}" class="w-16 h-16 rounded-xl object-cover shadow-sm bg-gray-100 dark:bg-gray-700">
+                            <img src="${file.thumbnailUrl}" class="w-16 h-16 rounded-xl object-cover shadow-sm bg-gray-100 dark:bg-gray-700" alt="Thumbnail">
                             <div class="flex-1">
                                 <h3 class="font-bold text-gray-800 dark:text-white line-clamp-1">${file.title}</h3>
                                 <p class="text-xs text-green-600 dark:text-green-400 font-semibold mt-1"><i class="fas fa-check-circle"></i> Unlocked</p>
@@ -1015,7 +1248,7 @@
                 navHistory.classList.replace('text-indigo-600', 'text-gray-400'); navHistory.classList.replace('dark:text-indigo-400', 'dark:text-gray-500');
             } else if(tab === 'history') {
                 homeView.classList.add('hidden'); historyView.classList.remove('hidden');
-                navHistory.classList.replace('text-gray-400', 'text-indigo-600'); navHistory.classList.replace('dark:text-gray-500', 'dark:text-indigo-400');
+                navHistory.classList.replace('text-gray-400', 'text-indigo-600'); navHistory.classList.replace('dark:text-indigo-400', 'dark:text-gray-500');
                 navHome.classList.replace('text-indigo-600', 'text-gray-400'); navHome.classList.replace('dark:text-indigo-400', 'dark:text-gray-500');
                 renderHistory();
             }
@@ -1029,7 +1262,7 @@
             setTimeout(() => {
                 t.classList.add('-translate-y-24', 'opacity-0');
                 t.classList.remove('translate-y-0', 'opacity-100');
-            }, 3000);
+            }, 3500);
         }
 
         document.getElementById('searchInput').addEventListener('input', renderFiles);
@@ -1040,14 +1273,13 @@
             try {
                 await signInAnonymously(auth);
             } catch (error) {
-                console.warn("Anonymous auth failed:", error);
+                console.warn("Anonymous auth failed (Check Firebase auth settings):", error);
             }
             loadData();
         }
 
-        const savedLang = localStorage.getItem('userLanguage');
-        if(savedLang) applyLanguage(savedLang);
-        else document.getElementById('language-modal').classList.remove('hidden');
+        const savedLang = localStorage.getItem('userLanguage') || 'bn';
+        applyLanguage(savedLang);
 
         initializeAppWithAuth();
     </script>
